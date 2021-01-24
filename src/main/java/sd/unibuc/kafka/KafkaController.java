@@ -1,10 +1,7 @@
 package sd.unibuc.kafka;
 
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sd.unibuc.kafka.consumer.TopicConsumer;
 
 import java.util.List;
@@ -21,8 +18,8 @@ public class KafkaController {
     }
 
     @PostMapping("/kafka/produce")
-    public void produce(@RequestParam String topic, @RequestParam String message) {
-        template.send(topic, message);
+    public void produce(@RequestBody MessageRequest messageRequest) {
+        template.send(messageRequest.getTopic(), messageRequest.getMessage());
     }
 
     @GetMapping("/kafka/messages")
