@@ -11,23 +11,16 @@ import java.util.Map;
 @Component
 public class TopicConsumer {
 
-    private final Map<String, List<String>> messages = new HashMap<>();
+    private final List<String> messages = new ArrayList<>();
 
-    @KafkaListener(topicPattern = "topic*", groupId = "kafka-sandbox")
-    public void listen(String topic, String message) {
+    @KafkaListener(topics = "myTopic", groupId = "kafka-sandbox")
+    public void listen(String message) {
         synchronized (messages) {
-            List<String> topicMessages = messages.get(topic);
-
-            if (topicMessages == null)
-                topicMessages = new ArrayList();
-
-            topicMessages.add(message);
-
-            messages.put(topic, topicMessages);
+            messages.add(message);
         }
     }
 
-    public List<String> getMessagesByTopic(String topic) {
-        return messages.get(topic);
+    public List<String> getMessages() {
+        return messages;
     }
 }

@@ -17,13 +17,20 @@ public class KafkaController {
         this.topicConsumer = topicConsumer;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200/")
     @PostMapping("/kafka/produce")
     public void produce(@RequestBody MessageRequest messageRequest) {
+        System.out.println(messageRequest.getTopic() + " " + messageRequest.getMessage());
         template.send(messageRequest.getTopic(), messageRequest.getMessage());
     }
 
-    @GetMapping("/kafka/messages")
-    public List<String> getMessagesByTopic(String topic) {
-        return topicConsumer.getMessagesByTopic(topic);
+//    @GetMapping("/kafka/messages")
+//    public List<String> getMessagesByTopic(@RequestBody String topic) {
+//        return topicConsumer.getMessagesByTopic(topic);
+//    }
+
+    @GetMapping("/kafka/messages2")
+    public List<String> getMessages() {
+        return topicConsumer.getMessages();
     }
 }
